@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tv.Crystal.UI", "infoSoft.Crystal.UI\tv.Crystal.UI.csproj", "{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tv.Crystal.Common", "infoSoft.Crystal.Common\tv.Crystal.Common.csproj", "{4907BEC3-3A19-4B26-A710-CB6A2401C9A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tv.Crystal.Data", "infoSoft.Crystal.Data\tv.Crystal.Data.csproj", "{51C26E72-2183-48B5-88C4-FCF452908CCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tv.Crystal.Business", "infoSoft.Crystal.Business\tv.Crystal.Business.csproj", "{C01EE09F-A948-4EC4-9588-2E11E2CD7BD3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4907BEC3-3A19-4B26-A710-CB6A2401C9A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4907BEC3-3A19-4B26-A710-CB6A2401C9A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4907BEC3-3A19-4B26-A710-CB6A2401C9A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4907BEC3-3A19-4B26-A710-CB6A2401C9A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C26E72-2183-48B5-88C4-FCF452908CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C26E72-2183-48B5-88C4-FCF452908CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C26E72-2183-48B5-88C4-FCF452908CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C26E72-2183-48B5-88C4-FCF452908CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C01EE09F-A948-4EC4-9588-2E11E2CD7BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C01EE09F-A948-4EC4-9588-2E11E2CD7BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C01EE09F-A948-4EC4-9588-2E11E2CD7BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C01EE09F-A948-4EC4-9588-2E11E2CD7BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEEDFCD6-877A-49CC-AF64-56B695A0D894}
+	EndGlobalSection
+EndGlobal
