@@ -60,6 +60,7 @@
     <Compile Include="Models\FormProperties.cs" />
     <Compile Include="Models\Properties\VoucherEntry.cs" />
     <Compile Include="Models\ReceiptMaster.cs" />
+    <Compile Include="Models\SalesVoucher.cs" />
     <Compile Include="Models\TagObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper\SqlHelper.cs" />

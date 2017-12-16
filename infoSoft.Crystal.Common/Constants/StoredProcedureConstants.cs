@@ -50,6 +50,8 @@ namespace tv.Crystal.Common.Constants
 
 		public const string GET_CUSTOMER_LIST = "[dbo].[cmsGetCustomerList]";
 		public const string GET_CUSTOMER_DETAILS = "[dbo].[cmsGetCustomerDetails]";
+		public const string GET_CUSTOMER_PENDING_AMOUNT_USING_NAME = "[dbo].[cmsGetCustomerPendingAmountUsingName]";
+		public const string GET_CUSTOMER_PENDING_AMOUNT_USING_VEHICLE_NO = "[dbo].[cmsGetCustomerPendingAmountUsingVehicleNo]";
         public const string CHECK_DUPLICATE_CUSTOMER_NAME = "[dbo].[cmsCheckDuplicateCustomerName]";
         public const string CHECK_DUPLICATE_VEHICLE_NO = "[dbo].[cmsCheckDuplicateVehicleNo]";
 		public const string INSERT_UPDATE_CUSTOMER = "[dbo].[cmsInsertUpdateCustomer]";
@@ -91,8 +93,7 @@ namespace tv.Crystal.Common.Constants
 
 		#region Sales Voucher
 
-		public const string GET_CUSTOMER_PENDING_AMOUNT_USING_NAME = "[dbo].[cmsGetCustomerPendingAmountUsingName]";
-		public const string GET_CUSTOMER_PENDING_AMOUNT_USING_VEHICLE_NO = "[dbo].[cmsGetCustomerPendingAmountUsingVehicleNo]";
+		public const string INSERT_SALES_VOUCHER = "[dbo].[cmsInsertSalesVoucher]";
 
 		#endregion
 	}
