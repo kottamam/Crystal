@@ -75,5 +75,38 @@ namespace tv.Crystal.Data
 				throw ex;
 			}
 		}
+
+		/// <summary>
+		/// To get sales voucher history
+		/// </summary>
+		/// <param name="cnSalesVoucher">Connection object</param>
+		/// <param name="customerId">Customer id</param>
+		/// <param name="showAll">Show all or not</param>
+		/// <returns>Sales voucher history</returns>
+		public static DataTable GetSalesVoucherHistory(SqlConnection cnSalesVoucher, int customerId, bool showAll)
+		{
+			DataTable dtSalesVoucherHistory = new DataTable();
+
+			try
+			{
+				SqlParameter parCustomerId = new SqlParameter("@CustomerId", customerId);
+				SqlParameter parShowAll = new SqlParameter("@ShowAll", showAll);
+
+				SqlHelper.FillDatatable(cnSalesVoucher
+					   , CommandType.StoredProcedure
+					   , StoredProcedureConstants.GET_SALES_VOUCHER_HISTORY
+					   , dtSalesVoucherHistory
+					   , CrystalConstants.DEFAULT_COMMAND_TIME_OUT
+					   , parCustomerId
+					   , parShowAll);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return dtSalesVoucherHistory;
+		}
+
 	}
 }

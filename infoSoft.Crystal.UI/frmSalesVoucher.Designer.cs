@@ -33,6 +33,8 @@
 			this.tipSalesVoucher = new System.Windows.Forms.ToolTip(this.components);
 			this.gbxEntry = new System.Windows.Forms.GroupBox();
 			this.gbxCustomerDetails = new System.Windows.Forms.GroupBox();
+			this.chkShowAll = new System.Windows.Forms.CheckBox();
+			this.dgvSalesHistory = new tv.Crystal.UI.CustomControls.nDataGridView();
 			this.lblCustomerFound = new System.Windows.Forms.Label();
 			this.btnSearchCustomer = new System.Windows.Forms.Button();
 			this.btnSearchVehicleNo = new System.Windows.Forms.Button();
@@ -62,12 +64,10 @@
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnClear = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
-			this.nDataGridView1 = new tv.Crystal.UI.CustomControls.nDataGridView();
-			this.chkShowAll = new System.Windows.Forms.CheckBox();
 			this.gbxEntry.SuspendLayout();
 			this.gbxCustomerDetails.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvSalesHistory)).BeginInit();
 			this.gbxControls.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nDataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// gbxEntry
@@ -106,21 +106,51 @@
 			// gbxCustomerDetails
 			// 
 			this.gbxCustomerDetails.Controls.Add(this.chkShowAll);
-			this.gbxCustomerDetails.Controls.Add(this.nDataGridView1);
+			this.gbxCustomerDetails.Controls.Add(this.dgvSalesHistory);
 			this.gbxCustomerDetails.Controls.Add(this.lblCustomerFound);
-			this.gbxCustomerDetails.Location = new System.Drawing.Point(751, 15);
+			this.gbxCustomerDetails.Location = new System.Drawing.Point(608, 15);
 			this.gbxCustomerDetails.Name = "gbxCustomerDetails";
-			this.gbxCustomerDetails.Size = new System.Drawing.Size(316, 473);
+			this.gbxCustomerDetails.Size = new System.Drawing.Size(459, 473);
 			this.gbxCustomerDetails.TabIndex = 11;
 			this.gbxCustomerDetails.TabStop = false;
+			// 
+			// chkShowAll
+			// 
+			this.chkShowAll.AutoSize = true;
+			this.chkShowAll.Location = new System.Drawing.Point(19, 65);
+			this.chkShowAll.Name = "chkShowAll";
+			this.chkShowAll.Size = new System.Drawing.Size(82, 20);
+			this.chkShowAll.TabIndex = 12;
+			this.chkShowAll.TabStop = false;
+			this.chkShowAll.Text = "Show all";
+			this.chkShowAll.UseVisualStyleBackColor = true;
+			this.chkShowAll.CheckedChanged += new System.EventHandler(this.chkShowAll_CheckedChanged);
+			// 
+			// dgvSalesHistory
+			// 
+			this.dgvSalesHistory.AllowUserToAddRows = false;
+			this.dgvSalesHistory.AllowUserToDeleteRows = false;
+			this.dgvSalesHistory.AllowUserToResizeRows = false;
+			this.dgvSalesHistory.BackgroundColor = System.Drawing.Color.White;
+			this.dgvSalesHistory.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			this.dgvSalesHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			this.dgvSalesHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvSalesHistory.Location = new System.Drawing.Point(6, 90);
+			this.dgvSalesHistory.MultiSelect = false;
+			this.dgvSalesHistory.Name = "dgvSalesHistory";
+			this.dgvSalesHistory.RowHeadersVisible = false;
+			this.dgvSalesHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			this.dgvSalesHistory.Size = new System.Drawing.Size(447, 374);
+			this.dgvSalesHistory.TabIndex = 11;
+			this.dgvSalesHistory.TabStop = false;
 			// 
 			// lblCustomerFound
 			// 
 			this.lblCustomerFound.Font = new System.Drawing.Font("Verdana", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblCustomerFound.ForeColor = System.Drawing.Color.Lime;
-			this.lblCustomerFound.Location = new System.Drawing.Point(13, 19);
+			this.lblCustomerFound.Location = new System.Drawing.Point(6, 19);
 			this.lblCustomerFound.Name = "lblCustomerFound";
-			this.lblCustomerFound.Size = new System.Drawing.Size(296, 39);
+			this.lblCustomerFound.Size = new System.Drawing.Size(447, 39);
 			this.lblCustomerFound.TabIndex = 10;
 			this.lblCustomerFound.Text = "Customer Found";
 			this.lblCustomerFound.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -134,7 +164,7 @@
 			this.btnSearchCustomer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSearchCustomer.Font = new System.Drawing.Font("Verdana", 8.25F);
 			this.btnSearchCustomer.ForeColor = System.Drawing.Color.Black;
-			this.btnSearchCustomer.Location = new System.Drawing.Point(688, 78);
+			this.btnSearchCustomer.Location = new System.Drawing.Point(560, 76);
 			this.btnSearchCustomer.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSearchCustomer.Name = "btnSearchCustomer";
 			this.btnSearchCustomer.Padding = new System.Windows.Forms.Padding(0, 0, 0, 36);
@@ -153,7 +183,7 @@
 			this.btnSearchVehicleNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSearchVehicleNo.Font = new System.Drawing.Font("Verdana", 8.25F);
 			this.btnSearchVehicleNo.ForeColor = System.Drawing.Color.Black;
-			this.btnSearchVehicleNo.Location = new System.Drawing.Point(688, 40);
+			this.btnSearchVehicleNo.Location = new System.Drawing.Point(560, 38);
 			this.btnSearchVehicleNo.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSearchVehicleNo.Name = "btnSearchVehicleNo";
 			this.btnSearchVehicleNo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 36);
@@ -165,7 +195,7 @@
 			// 
 			// dtpSalesDate
 			// 
-			this.dtpSalesDate.Location = new System.Drawing.Point(425, 166);
+			this.dtpSalesDate.Location = new System.Drawing.Point(297, 164);
 			this.dtpSalesDate.Name = "dtpSalesDate";
 			this.dtpSalesDate.Size = new System.Drawing.Size(260, 23);
 			this.dtpSalesDate.TabIndex = 5;
@@ -178,7 +208,7 @@
 			this.cboProduct.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cboProduct.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.cboProduct.FormattingEnabled = true;
-			this.cboProduct.Location = new System.Drawing.Point(425, 122);
+			this.cboProduct.Location = new System.Drawing.Point(297, 120);
 			this.cboProduct.Name = "cboProduct";
 			this.cboProduct.Size = new System.Drawing.Size(260, 22);
 			this.cboProduct.TabIndex = 4;
@@ -191,7 +221,7 @@
 			this.txtRate.ContentType = tv.Crystal.UI.nTextBox.nType.Number;
 			this.txtRate.Enabled = false;
 			this.txtRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtRate.Location = new System.Drawing.Point(591, 212);
+			this.txtRate.Location = new System.Drawing.Point(463, 210);
 			this.txtRate.Name = "txtRate";
 			this.txtRate.RangeFrom = new System.DateTime(((long)(0)));
 			this.txtRate.RangeTo = new System.DateTime(((long)(0)));
@@ -205,7 +235,7 @@
 			this.txtSettledAmount.ContentType = tv.Crystal.UI.nTextBox.nType.Amount;
 			this.txtSettledAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtSettledAmount.ForeColor = System.Drawing.Color.Red;
-			this.txtSettledAmount.Location = new System.Drawing.Point(425, 441);
+			this.txtSettledAmount.Location = new System.Drawing.Point(297, 439);
 			this.txtSettledAmount.MaxLength = 10;
 			this.txtSettledAmount.Name = "txtSettledAmount";
 			this.txtSettledAmount.RangeFrom = new System.DateTime(((long)(0)));
@@ -221,7 +251,7 @@
 			this.txtDiscount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtDiscount.ContentType = tv.Crystal.UI.nTextBox.nType.Amount;
 			this.txtDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtDiscount.Location = new System.Drawing.Point(425, 257);
+			this.txtDiscount.Location = new System.Drawing.Point(297, 255);
 			this.txtDiscount.MaxLength = 9;
 			this.txtDiscount.Name = "txtDiscount";
 			this.txtDiscount.RangeFrom = new System.DateTime(((long)(0)));
@@ -238,7 +268,7 @@
 			this.txtQty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtQty.ContentType = tv.Crystal.UI.nTextBox.nType.Number;
 			this.txtQty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtQty.Location = new System.Drawing.Point(425, 213);
+			this.txtQty.Location = new System.Drawing.Point(297, 211);
 			this.txtQty.MaxLength = 6;
 			this.txtQty.Name = "txtQty";
 			this.txtQty.RangeFrom = new System.DateTime(((long)(0)));
@@ -255,7 +285,7 @@
 			this.txtCustomerName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtCustomerName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.txtCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtCustomerName.Location = new System.Drawing.Point(425, 78);
+			this.txtCustomerName.Location = new System.Drawing.Point(297, 76);
 			this.txtCustomerName.Name = "txtCustomerName";
 			this.txtCustomerName.RangeFrom = new System.DateTime(((long)(0)));
 			this.txtCustomerName.RangeTo = new System.DateTime(((long)(0)));
@@ -265,7 +295,7 @@
 			// 
 			// lblCustomerName
 			// 
-			this.lblCustomerName.Location = new System.Drawing.Point(235, 79);
+			this.lblCustomerName.Location = new System.Drawing.Point(107, 77);
 			this.lblCustomerName.Name = "lblCustomerName";
 			this.lblCustomerName.Size = new System.Drawing.Size(184, 22);
 			this.lblCustomerName.TabIndex = 0;
@@ -278,7 +308,7 @@
 			this.txtVehicleNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtVehicleNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
 			this.txtVehicleNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtVehicleNo.Location = new System.Drawing.Point(425, 38);
+			this.txtVehicleNo.Location = new System.Drawing.Point(297, 36);
 			this.txtVehicleNo.Name = "txtVehicleNo";
 			this.txtVehicleNo.RangeFrom = new System.DateTime(((long)(0)));
 			this.txtVehicleNo.RangeTo = new System.DateTime(((long)(0)));
@@ -288,7 +318,7 @@
 			// 
 			// lblRate
 			// 
-			this.lblRate.Location = new System.Drawing.Point(524, 212);
+			this.lblRate.Location = new System.Drawing.Point(396, 210);
 			this.lblRate.Name = "lblRate";
 			this.lblRate.Size = new System.Drawing.Size(61, 22);
 			this.lblRate.TabIndex = 0;
@@ -299,7 +329,7 @@
 			// 
 			this.lblPreviousDueValue.Font = new System.Drawing.Font("Verdana", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblPreviousDueValue.ForeColor = System.Drawing.Color.White;
-			this.lblPreviousDueValue.Location = new System.Drawing.Point(425, 335);
+			this.lblPreviousDueValue.Location = new System.Drawing.Point(297, 333);
 			this.lblPreviousDueValue.Name = "lblPreviousDueValue";
 			this.lblPreviousDueValue.Size = new System.Drawing.Size(188, 44);
 			this.lblPreviousDueValue.TabIndex = 0;
@@ -308,7 +338,7 @@
 			// 
 			// lblPreviousDue
 			// 
-			this.lblPreviousDue.Location = new System.Drawing.Point(235, 345);
+			this.lblPreviousDue.Location = new System.Drawing.Point(107, 343);
 			this.lblPreviousDue.Name = "lblPreviousDue";
 			this.lblPreviousDue.Size = new System.Drawing.Size(184, 22);
 			this.lblPreviousDue.TabIndex = 0;
@@ -319,7 +349,7 @@
 			// 
 			this.lblTotalValue.Font = new System.Drawing.Font("Verdana", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblTotalValue.ForeColor = System.Drawing.Color.White;
-			this.lblTotalValue.Location = new System.Drawing.Point(425, 291);
+			this.lblTotalValue.Location = new System.Drawing.Point(297, 289);
 			this.lblTotalValue.Name = "lblTotalValue";
 			this.lblTotalValue.Size = new System.Drawing.Size(188, 44);
 			this.lblTotalValue.TabIndex = 0;
@@ -328,7 +358,7 @@
 			// 
 			// lblTotal
 			// 
-			this.lblTotal.Location = new System.Drawing.Point(235, 301);
+			this.lblTotal.Location = new System.Drawing.Point(107, 299);
 			this.lblTotal.Name = "lblTotal";
 			this.lblTotal.Size = new System.Drawing.Size(184, 22);
 			this.lblTotal.TabIndex = 0;
@@ -339,7 +369,7 @@
 			// 
 			this.lblNetAmountValue.Font = new System.Drawing.Font("Verdana", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblNetAmountValue.ForeColor = System.Drawing.Color.White;
-			this.lblNetAmountValue.Location = new System.Drawing.Point(425, 379);
+			this.lblNetAmountValue.Location = new System.Drawing.Point(297, 377);
 			this.lblNetAmountValue.Name = "lblNetAmountValue";
 			this.lblNetAmountValue.Size = new System.Drawing.Size(188, 44);
 			this.lblNetAmountValue.TabIndex = 0;
@@ -348,7 +378,7 @@
 			// 
 			// lblSettledAmount
 			// 
-			this.lblSettledAmount.Location = new System.Drawing.Point(235, 441);
+			this.lblSettledAmount.Location = new System.Drawing.Point(107, 439);
 			this.lblSettledAmount.Name = "lblSettledAmount";
 			this.lblSettledAmount.Size = new System.Drawing.Size(184, 22);
 			this.lblSettledAmount.TabIndex = 0;
@@ -357,7 +387,7 @@
 			// 
 			// lblNetAmount
 			// 
-			this.lblNetAmount.Location = new System.Drawing.Point(235, 389);
+			this.lblNetAmount.Location = new System.Drawing.Point(107, 387);
 			this.lblNetAmount.Name = "lblNetAmount";
 			this.lblNetAmount.Size = new System.Drawing.Size(184, 22);
 			this.lblNetAmount.TabIndex = 0;
@@ -366,7 +396,7 @@
 			// 
 			// lblDiscount
 			// 
-			this.lblDiscount.Location = new System.Drawing.Point(235, 257);
+			this.lblDiscount.Location = new System.Drawing.Point(107, 255);
 			this.lblDiscount.Name = "lblDiscount";
 			this.lblDiscount.Size = new System.Drawing.Size(184, 22);
 			this.lblDiscount.TabIndex = 0;
@@ -375,7 +405,7 @@
 			// 
 			// lblQty
 			// 
-			this.lblQty.Location = new System.Drawing.Point(235, 213);
+			this.lblQty.Location = new System.Drawing.Point(107, 211);
 			this.lblQty.Name = "lblQty";
 			this.lblQty.Size = new System.Drawing.Size(184, 22);
 			this.lblQty.TabIndex = 0;
@@ -384,7 +414,7 @@
 			// 
 			// lblSalesDate
 			// 
-			this.lblSalesDate.Location = new System.Drawing.Point(235, 165);
+			this.lblSalesDate.Location = new System.Drawing.Point(107, 163);
 			this.lblSalesDate.Name = "lblSalesDate";
 			this.lblSalesDate.Size = new System.Drawing.Size(184, 22);
 			this.lblSalesDate.TabIndex = 0;
@@ -393,7 +423,7 @@
 			// 
 			// lblProduct
 			// 
-			this.lblProduct.Location = new System.Drawing.Point(235, 120);
+			this.lblProduct.Location = new System.Drawing.Point(107, 118);
 			this.lblProduct.Name = "lblProduct";
 			this.lblProduct.Size = new System.Drawing.Size(184, 22);
 			this.lblProduct.TabIndex = 0;
@@ -402,7 +432,7 @@
 			// 
 			// lblVehicleNo
 			// 
-			this.lblVehicleNo.Location = new System.Drawing.Point(235, 39);
+			this.lblVehicleNo.Location = new System.Drawing.Point(107, 37);
 			this.lblVehicleNo.Name = "lblVehicleNo";
 			this.lblVehicleNo.Size = new System.Drawing.Size(184, 22);
 			this.lblVehicleNo.TabIndex = 0;
@@ -456,24 +486,6 @@
 			this.btnSave.UseVisualStyleBackColor = false;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
-			// nDataGridView1
-			// 
-			this.nDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.nDataGridView1.Location = new System.Drawing.Point(6, 90);
-			this.nDataGridView1.Name = "nDataGridView1";
-			this.nDataGridView1.Size = new System.Drawing.Size(303, 374);
-			this.nDataGridView1.TabIndex = 11;
-			// 
-			// chkShowAll
-			// 
-			this.chkShowAll.AutoSize = true;
-			this.chkShowAll.Location = new System.Drawing.Point(19, 65);
-			this.chkShowAll.Name = "chkShowAll";
-			this.chkShowAll.Size = new System.Drawing.Size(82, 20);
-			this.chkShowAll.TabIndex = 12;
-			this.chkShowAll.Text = "Show all";
-			this.chkShowAll.UseVisualStyleBackColor = true;
-			// 
 			// frmSalesVoucher
 			// 
 			this.AutoResize = false;
@@ -490,8 +502,8 @@
 			this.gbxEntry.PerformLayout();
 			this.gbxCustomerDetails.ResumeLayout(false);
 			this.gbxCustomerDetails.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvSalesHistory)).EndInit();
 			this.gbxControls.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.nDataGridView1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -531,7 +543,7 @@
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.GroupBox gbxCustomerDetails;
 		private System.Windows.Forms.Label lblCustomerFound;
-		private CustomControls.nDataGridView nDataGridView1;
+		private CustomControls.nDataGridView dgvSalesHistory;
 		private System.Windows.Forms.CheckBox chkShowAll;
 	}
 }

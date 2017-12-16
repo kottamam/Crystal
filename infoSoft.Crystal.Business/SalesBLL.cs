@@ -77,5 +77,41 @@ namespace tv.Crystal.Business
 				throw ex;
 			}
 		}
+
+		/// <summary>
+		/// To get the sales voucher history
+		/// </summary>
+		/// <param name="customerId">Customer id</param>
+		/// <param name="showAll">Show all or not</param>
+		/// <returns>Sales voucher history</returns>
+		public static DataTable GetSalesVoucherHistory(int customerId, bool showAll)
+		{
+			DataTable dtSalesVoucherHistory;
+
+			using (SqlConnection cnCustomer = new SqlConnection(tvConnection.ConnectionString))
+			{
+				cnCustomer.Open();
+
+				try
+				{
+					//Calling data method for getting sales voucher history
+					dtSalesVoucherHistory = SalesDAL.GetSalesVoucherHistory(cnCustomer, customerId, showAll);
+				}
+				catch (Exception ex)
+				{
+					throw ex;
+				}
+				finally
+				{
+					if (cnCustomer.State == ConnectionState.Open || cnCustomer != null)
+					{
+						cnCustomer.Dispose();
+						cnCustomer.Close();
+					}
+				}
+
+				return dtSalesVoucherHistory; // Return datatable with sales voucher history
+			}
+		}
 	}
 }

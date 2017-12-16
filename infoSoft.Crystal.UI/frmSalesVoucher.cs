@@ -42,6 +42,20 @@ namespace tv.Crystal.UI
 
 		#endregion Constructor
 
+		#region Enum
+
+		private enum GridColsSalesVoucherHistory
+		{
+			Select,
+			Date,
+			Model,
+			Amount,
+			Settled,
+			Pending
+		}
+
+#endregion
+
 		#region Form Events
 
 		private void frmSalesVoucher_Load(object sender, EventArgs e)
@@ -152,6 +166,7 @@ namespace tv.Crystal.UI
 				txtSettledAmount.Text = "0.00";
 				txtVehicleNo.Enabled = true;
 				txtCustomerName.Enabled = true;
+				chkShowAll.Checked = false;
 				SetCustomerDetailsArea();
 			}
 			catch (Exception ex)
@@ -247,6 +262,8 @@ namespace tv.Crystal.UI
 				gbxCustomerDetails.Visible = true;
 				lblCustomerFound.ForeColor = Color.Lime;
 				lblCustomerFound.Text = "Old Customer";
+				SetSalesVoucherHistoryGrid();
+				FillSalesVoucherHistoryGrid();
 			}
 			else
 			{
@@ -260,6 +277,120 @@ namespace tv.Crystal.UI
 				{
 					gbxCustomerDetails.Visible = false;
 				}
+			}
+		}
+
+		private void SetSalesVoucherHistoryGrid()
+		{
+			try
+			{
+				dgvSalesHistory.Rows.Clear();
+				dgvSalesHistory.Columns.Clear();
+
+				// Creating check column and adding into voucher details grid
+				DataGridViewCheckBoxColumn colVoucherCheck = new DataGridViewCheckBoxColumn();
+				colVoucherCheck.Name = "colVoucherCheck";
+				colVoucherCheck.HeaderText = "";
+				colVoucherCheck.MinimumWidth = 30;
+				colVoucherCheck.Width = 40;
+				colVoucherCheck.ReadOnly = true;
+				colVoucherCheck.Visible = true;
+				colVoucherCheck.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+				colVoucherCheck.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+				colVoucherCheck.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				// Creating date column and adding into voucher details grid
+				nDataGridViewTextBoxColumn colVoucherDate = new nDataGridViewTextBoxColumn();
+				colVoucherDate.Name = "colVoucherDate";
+				colVoucherDate.HeaderText = "Date";
+				colVoucherDate.MinimumWidth = 80;
+				colVoucherDate.FillWeight = 250;
+				colVoucherDate.ReadOnly = true;
+				colVoucherDate.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherDate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherDate.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				// Creating model column and adding into voucher details grid
+				nDataGridViewTextBoxColumn colVoucherModel = new nDataGridViewTextBoxColumn();
+				colVoucherModel.Name = "colVoucherModel";
+				colVoucherModel.HeaderText = "Model";
+				colVoucherModel.MinimumWidth = 100;
+				colVoucherModel.FillWeight = 350;
+				colVoucherModel.ReadOnly = true;
+				colVoucherModel.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherModel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherModel.SortMode = DataGridViewColumnSortMode.NotSortable;
+				
+				// Creating amount column and adding into voucher details grid
+				nDataGridViewTextBoxColumn colVoucherNetAmount = new nDataGridViewTextBoxColumn();
+				colVoucherNetAmount.Name = "colVoucherAmount";
+				colVoucherNetAmount.HeaderText = "Amount";
+				colVoucherNetAmount.MinimumWidth = 80;
+				colVoucherNetAmount.FillWeight = 250;
+				colVoucherNetAmount.ReadOnly = true;
+				colVoucherNetAmount.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherNetAmount.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherNetAmount.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				// Creating Settled amount column and adding into voucher details grid
+				nDataGridViewTextBoxColumn colVoucherSettledAmount = new nDataGridViewTextBoxColumn();
+				colVoucherSettledAmount.Name = "colVoucherSettledAmount";
+				colVoucherSettledAmount.HeaderText = "Settled";
+				colVoucherSettledAmount.MinimumWidth =80;
+				colVoucherSettledAmount.FillWeight = 250;
+				colVoucherSettledAmount.ReadOnly = true;
+				colVoucherSettledAmount.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherSettledAmount.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherSettledAmount.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				// Creating Settled amount column and adding into voucher details grid
+				nDataGridViewTextBoxColumn colVoucherPendingAmount = new nDataGridViewTextBoxColumn();
+				colVoucherPendingAmount.Name = "colVoucherPendingAmount";
+				colVoucherPendingAmount.HeaderText = "Pending";
+				colVoucherPendingAmount.MinimumWidth = 80;
+				colVoucherPendingAmount.FillWeight = 250;
+				colVoucherPendingAmount.ReadOnly = true;
+				colVoucherPendingAmount.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherPendingAmount.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colVoucherPendingAmount.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				dgvSalesHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+																								colVoucherCheck,
+																								colVoucherDate,
+																								colVoucherModel,
+																								colVoucherNetAmount,
+																								colVoucherSettledAmount,
+																								colVoucherPendingAmount});
+
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		private void FillSalesVoucherHistoryGrid()
+		{
+			try
+			{
+				DataTable dtSalesVouchers =  SalesBLL.GetSalesVoucherHistory(Convert.ToInt32(txtVehicleNo.Tag), chkShowAll.Checked);
+				foreach(DataRow Sales in dtSalesVouchers.Rows)
+				{
+					dgvSalesHistory.Rows.Add();
+
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Date].Value = Sales["SalesDate"].ToString();
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Model].Value = Sales["ModelName"].ToString();
+					decimal amount = Convert.ToDecimal(Sales["NetAmount"]);
+					decimal settled = Convert.ToDecimal(Sales["SettledAmount"]);
+					decimal pending = amount - settled > 0 ? amount - settled : 0;
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Amount].Value = amount.ToString("F");
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Settled].Value = settled.ToString("F");
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Pending].Value = pending.ToString("F");
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
 			}
 		}
 
@@ -357,6 +488,12 @@ namespace tv.Crystal.UI
 					txtDiscount.Focus();
 					return;
 				}
+				if(Convert.ToDecimal(lblTotalValue.Text) == 0 && Convert.ToDecimal(txtSettledAmount.Text) == 0)
+				{
+					Messages.ShowInformationMessage("Invalid entry. Voucher amount and settlement amount are zero.");
+					txtQty.Focus();
+					return;
+				}
 				if(dtpSalesDate.Value.Date < GeneralBLL.GetServerDateAndTime().Date && !Messages.ShowConfirmation("Do you want to enter sales voucher for previous date?"))
 				{
 					return;
@@ -368,6 +505,11 @@ namespace tv.Crystal.UI
 				}
 				if(Convert.ToInt32(txtQty.Text) > 0 && Convert.ToDecimal(lblNetAmountValue.Text) < Convert.ToDecimal(txtSettledAmount.Text) && !Messages.ShowConfirmation("The settlement amount is higher than the bill net amount. Do you want to proceed?"))
 				{
+					
+					//foreach(DataGridViewRow row in dgvSalesHistory.Rows)
+					//{
+					//	row.Cells[(int)GridColsSalesVoucherHistory.Select].ReadOnly = false;
+					//}
 					return;
 				}
 				Cursor.Current = Cursors.WaitCursor;
@@ -388,7 +530,7 @@ namespace tv.Crystal.UI
 				salesVoucher.Quantity = Convert.ToInt32(txtQty.Text);
 				salesVoucher.Rate = Convert.ToDecimal(txtRate.Text);
 				salesVoucher.Discount = Convert.ToDecimal(txtDiscount.Text);
-				salesVoucher.NetAmount = Convert.ToDecimal(lblNetAmountValue.Text);
+				salesVoucher.NetAmount = Convert.ToDecimal(lblTotalValue.Text);
 				salesVoucher.SettledAmount = Convert.ToDecimal(txtSettledAmount.Text);
 				salesVoucher.CreatedBy = ActiveUserSession.UserId;
 				salesVoucher.SalesId = SalesBLL.InsertSalesVoucher(ref salesVoucher);
@@ -499,7 +641,24 @@ namespace tv.Crystal.UI
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
+		private void chkShowAll_CheckedChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				SetSalesVoucherHistoryGrid();
+				if(Convert.ToInt32(txtVehicleNo.Tag) > 0)
+				{
+					FillSalesVoucherHistoryGrid();
+				}
+			}
+			catch (Exception ex)
+			{
+				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				Messages.ShowExceptionMessage(ref ex);
+			}
+		}
 
 		#endregion
+
 	}
 }

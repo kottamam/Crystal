@@ -94,6 +94,7 @@ namespace tv.Crystal.Common.Constants
 		#region Sales Voucher
 
 		public const string INSERT_SALES_VOUCHER = "[dbo].[cmsInsertSalesVoucher]";
+		public const string GET_SALES_VOUCHER_HISTORY = "[dbo].[cmsGetSalesVoucherHistory]";
 
 		#endregion
 	}
