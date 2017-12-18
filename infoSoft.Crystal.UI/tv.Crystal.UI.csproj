@@ -7,8 +7,8 @@
     <ProjectGuid>{1AD52DE6-EE70-4D9C-BDAC-B28320BCD345}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>tv.ChequeBook.UI</RootNamespace>
-    <AssemblyName>tv.ChequeBook.UI</AssemblyName>
+    <RootNamespace>tv.Crystal.UI</RootNamespace>
+    <AssemblyName>tv.Crystal.UI</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

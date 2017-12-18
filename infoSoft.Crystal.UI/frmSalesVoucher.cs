@@ -47,6 +47,7 @@ namespace tv.Crystal.UI
 		private enum GridColsSalesVoucherHistory
 		{
 			Select,
+			SalesId,
 			Date,
 			Model,
 			Amount,
@@ -54,7 +55,7 @@ namespace tv.Crystal.UI
 			Pending
 		}
 
-#endregion
+		#endregion
 
 		#region Form Events
 
@@ -68,7 +69,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("SalesVoucher_Load: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 			finally
@@ -115,7 +116,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("SalesVoucher_KeyDown: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -163,7 +164,11 @@ namespace tv.Crystal.UI
 				lblTotalValue.Text = "0.00";
 				lblPreviousDueValue.Text = "0.00";
 				lblNetAmountValue.Text = "0.00";
-				txtSettledAmount.Text = "0.00";
+				txtReceivedAmount.Text = "0.00";
+				lblTotalDueValue.Text = "0.00";
+				lblSelectedDueValue.Text = "0.00";
+				lblExcessAmountValue.Text = "0.00";
+				lblCollectionAmountValue.Text = "0.00";
 				txtVehicleNo.Enabled = true;
 				txtCustomerName.Enabled = true;
 				chkShowAll.Checked = false;
@@ -184,12 +189,14 @@ namespace tv.Crystal.UI
 				decimal discount = 0;
 				decimal total = 0;
 				decimal due = 0;
-				if(txtQty.Text.Length > 0)
+				decimal selectedDue = 0;
+				decimal receivedAmount = 0;
+				if (txtQty.Text.Length > 0)
 				{
 					qty = Convert.ToInt32(txtQty.Text);
 				}
 				rate = Convert.ToDecimal(txtRate.Text);
-				if(txtDiscount.Text.Length > 0)
+				if (txtDiscount.Text.Length > 0)
 				{
 					discount = Convert.ToDecimal(txtDiscount.Text);
 				}
@@ -197,6 +204,13 @@ namespace tv.Crystal.UI
 				due = Convert.ToDecimal(lblPreviousDueValue.Text);
 				lblTotalValue.Text = total.ToString("F");
 				lblNetAmountValue.Text = (total + due).ToString("F");
+				selectedDue = Convert.ToDecimal(lblSelectedDueValue.Text);
+				if(txtReceivedAmount.Text.Length > 0)
+				{
+					receivedAmount = Convert.ToDecimal(txtReceivedAmount.Text);
+				}
+				lblExcessAmountValue.Text = (receivedAmount - total - selectedDue).ToString("F");
+				lblCollectionAmountValue.Text = (total + selectedDue).ToString("F");
 			}
 			catch (Exception ex)
 			{
@@ -257,7 +271,7 @@ namespace tv.Crystal.UI
 		private void SetCustomerDetailsArea()
 		{
 			int customerId = Convert.ToInt32(txtVehicleNo.Tag);
-			if(customerId > 0)
+			if (customerId > 0)
 			{
 				gbxCustomerDetails.Visible = true;
 				lblCustomerFound.ForeColor = Color.Lime;
@@ -267,7 +281,7 @@ namespace tv.Crystal.UI
 			}
 			else
 			{
-				if(txtVehicleNo.Text.Trim().Length > 0 || txtCustomerName.Text.Trim().Length > 0)
+				if (txtVehicleNo.Text.Trim().Length > 0 || txtCustomerName.Text.Trim().Length > 0)
 				{
 					gbxCustomerDetails.Visible = true;
 					lblCustomerFound.ForeColor = Color.Red;
@@ -293,11 +307,17 @@ namespace tv.Crystal.UI
 				colVoucherCheck.HeaderText = "";
 				colVoucherCheck.MinimumWidth = 30;
 				colVoucherCheck.Width = 40;
-				colVoucherCheck.ReadOnly = true;
+				colVoucherCheck.ReadOnly = false;
 				colVoucherCheck.Visible = true;
 				colVoucherCheck.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 				colVoucherCheck.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 				colVoucherCheck.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				// Creating sales id column and adding into voucher details grid
+				DataGridViewCheckBoxColumn colVoucherSalesId = new DataGridViewCheckBoxColumn();
+				colVoucherSalesId.Name = "colVoucherSalesId";
+				colVoucherSalesId.HeaderText = "";
+				colVoucherSalesId.Visible = false;
 
 				// Creating date column and adding into voucher details grid
 				nDataGridViewTextBoxColumn colVoucherDate = new nDataGridViewTextBoxColumn();
@@ -320,7 +340,7 @@ namespace tv.Crystal.UI
 				colVoucherModel.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
 				colVoucherModel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 				colVoucherModel.SortMode = DataGridViewColumnSortMode.NotSortable;
-				
+
 				// Creating amount column and adding into voucher details grid
 				nDataGridViewTextBoxColumn colVoucherNetAmount = new nDataGridViewTextBoxColumn();
 				colVoucherNetAmount.Name = "colVoucherAmount";
@@ -336,7 +356,7 @@ namespace tv.Crystal.UI
 				nDataGridViewTextBoxColumn colVoucherSettledAmount = new nDataGridViewTextBoxColumn();
 				colVoucherSettledAmount.Name = "colVoucherSettledAmount";
 				colVoucherSettledAmount.HeaderText = "Settled";
-				colVoucherSettledAmount.MinimumWidth =80;
+				colVoucherSettledAmount.MinimumWidth = 80;
 				colVoucherSettledAmount.FillWeight = 250;
 				colVoucherSettledAmount.ReadOnly = true;
 				colVoucherSettledAmount.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -356,6 +376,7 @@ namespace tv.Crystal.UI
 
 				dgvSalesHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
 																								colVoucherCheck,
+																								colVoucherSalesId,
 																								colVoucherDate,
 																								colVoucherModel,
 																								colVoucherNetAmount,
@@ -373,20 +394,24 @@ namespace tv.Crystal.UI
 		{
 			try
 			{
-				DataTable dtSalesVouchers =  SalesBLL.GetSalesVoucherHistory(Convert.ToInt32(txtVehicleNo.Tag), chkShowAll.Checked);
-				foreach(DataRow Sales in dtSalesVouchers.Rows)
+				DataTable dtSalesVouchers = SalesBLL.GetSalesVoucherHistory(Convert.ToInt32(txtVehicleNo.Tag), chkShowAll.Checked);
+				decimal totalDue = 0.00M;
+				foreach (DataRow Sales in dtSalesVouchers.Rows)
 				{
 					dgvSalesHistory.Rows.Add();
 
+					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.SalesId].Value = Sales["SalesID"];
 					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Date].Value = Sales["SalesDate"].ToString();
 					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Model].Value = Sales["ModelName"].ToString();
 					decimal amount = Convert.ToDecimal(Sales["NetAmount"]);
 					decimal settled = Convert.ToDecimal(Sales["SettledAmount"]);
 					decimal pending = amount - settled > 0 ? amount - settled : 0;
+					totalDue += pending;
 					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Amount].Value = amount.ToString("F");
 					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Settled].Value = settled.ToString("F");
 					dgvSalesHistory.Rows[dgvSalesHistory.RowCount - 1].Cells[(int)GridColsSalesVoucherHistory.Pending].Value = pending.ToString("F");
 				}
+				lblTotalDueValue.Text = totalDue.ToString("F");
 			}
 			catch (Exception ex)
 			{
@@ -416,7 +441,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("SearchVehicleNo_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -439,7 +464,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("SearchCustomer_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -454,7 +479,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Clear_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -467,7 +492,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Close_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -476,44 +501,40 @@ namespace tv.Crystal.UI
 		{
 			try
 			{
-				if(txtVehicleNo.Text.Trim().Length == 0 && txtCustomerName.Text.Trim().Length == 0)
+				if (txtVehicleNo.Text.Trim().Length == 0 && txtCustomerName.Text.Trim().Length == 0)
 				{
 					Messages.ShowInformationMessage("Customer details is not entered.");
 					txtVehicleNo.Focus();
 					return;
 				}
-				if(Convert.ToInt32(txtQty.Text) * Convert.ToDecimal(txtRate.Text) < Convert.ToDecimal(txtDiscount.Text))
+				if (Convert.ToInt32(txtQty.Text) * Convert.ToDecimal(txtRate.Text) < Convert.ToDecimal(txtDiscount.Text))
 				{
 					Messages.ShowInformationMessage("You cannot give dicount more than the bill amount.");
 					txtDiscount.Focus();
 					return;
 				}
-				if(Convert.ToDecimal(lblTotalValue.Text) == 0 && Convert.ToDecimal(txtSettledAmount.Text) == 0)
+				if (Convert.ToDecimal(lblTotalValue.Text) == 0 && Convert.ToDecimal(txtReceivedAmount.Text) == 0)
 				{
-					Messages.ShowInformationMessage("Invalid entry. Voucher amount and settlement amount are zero.");
+					Messages.ShowInformationMessage("Invalid entry. Voucher amount and received amount are zero.");
 					txtQty.Focus();
 					return;
 				}
-				if(dtpSalesDate.Value.Date < GeneralBLL.GetServerDateAndTime().Date && !Messages.ShowConfirmation("Do you want to enter sales voucher for previous date?"))
+				if (dtpSalesDate.Value.Date < GeneralBLL.GetServerDateAndTime().Date && !Messages.ShowConfirmation("Do you want to enter sales voucher for previous date?"))
 				{
 					return;
 				}
-				if(Convert.ToInt32(txtQty.Text) == 0 && Convert.ToDecimal(txtSettledAmount.Text) > 0 && !Messages.ShowConfirmation("Quantity is not zero. Are you going to enter a settlement entry?"))
+				if (Convert.ToInt32(txtQty.Text) == 0 && Convert.ToDecimal(txtReceivedAmount.Text) > 0 && !Messages.ShowConfirmation("Quantity is zero. Are you going to enter a settlement entry?"))
 				{
 					txtQty.Focus();
 					return;
 				}
-				if(Convert.ToInt32(txtQty.Text) > 0 && Convert.ToDecimal(lblNetAmountValue.Text) < Convert.ToDecimal(txtSettledAmount.Text) && !Messages.ShowConfirmation("The settlement amount is higher than the bill net amount. Do you want to proceed?"))
+				if (Convert.ToDecimal(lblExcessAmountValue.Text) > 0)
 				{
-					
-					//foreach(DataGridViewRow row in dgvSalesHistory.Rows)
-					//{
-					//	row.Cells[(int)GridColsSalesVoucherHistory.Select].ReadOnly = false;
-					//}
+					Messages.ShowInformationMessage("Excess amount. Cannot proceed.");
 					return;
 				}
 				Cursor.Current = Cursors.WaitCursor;
-				if(Convert.ToInt32(txtVehicleNo.Tag) == 0)
+				if (Convert.ToInt32(txtVehicleNo.Tag) == 0)
 				{
 					Customer customer = new Customer();
 					customer.CustomerId = 0;
@@ -531,7 +552,7 @@ namespace tv.Crystal.UI
 				salesVoucher.Rate = Convert.ToDecimal(txtRate.Text);
 				salesVoucher.Discount = Convert.ToDecimal(txtDiscount.Text);
 				salesVoucher.NetAmount = Convert.ToDecimal(lblTotalValue.Text);
-				salesVoucher.SettledAmount = Convert.ToDecimal(txtSettledAmount.Text);
+				salesVoucher.ReceivedAmount = Convert.ToDecimal(txtReceivedAmount.Text);
 				salesVoucher.CreatedBy = ActiveUserSession.UserId;
 				salesVoucher.SalesId = SalesBLL.InsertSalesVoucher(ref salesVoucher);
 				GeneralBLL.InsertEventLog("Sales voucher saved", EventLogType.SalesVoucher, EventLogMode.Insert, salesVoucher.SalesId);
@@ -540,7 +561,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Save_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 			finally
@@ -565,7 +586,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Product_SelectedIndexChanged: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -574,7 +595,7 @@ namespace tv.Crystal.UI
 		{
 			try
 			{
-				if(txtQty.Text.Length == 0)
+				if (txtQty.Text.Length == 0)
 				{
 					txtQty.Text = "0";
 				}
@@ -582,7 +603,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Qty_Leave: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -595,11 +616,11 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("Discount_Leave: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
-		
+
 		private void txtVehicleNo_Leave(object sender, EventArgs e)
 		{
 			try
@@ -608,7 +629,7 @@ namespace tv.Crystal.UI
 				{
 					SearchVehicleNo();
 				}
-				if(txtVehicleNo.Text.Trim().Length == 0 && txtCustomerName.Text.Trim().Length == 0)
+				if (txtVehicleNo.Text.Trim().Length == 0 && txtCustomerName.Text.Trim().Length == 0)
 				{
 					txtVehicleNo.Tag = 0;
 					SetCustomerDetailsArea();
@@ -616,7 +637,7 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("VehicleNo_Leave: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
@@ -625,7 +646,7 @@ namespace tv.Crystal.UI
 		{
 			try
 			{
-				if(txtCustomerName.Text.Trim().Length > 0)
+				if (txtCustomerName.Text.Trim().Length > 0)
 				{
 					SearchCustomerName();
 				}
@@ -637,28 +658,75 @@ namespace tv.Crystal.UI
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("CustomerName_Leave: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
+
+		private void txtReceivedAmount_TextChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				CalculateAmount();
+			}
+			catch (Exception ex)
+			{
+				GeneralBLL.InsertEventLog("ReceivedAmount_TextChanged: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
+				Messages.ShowExceptionMessage(ref ex);
+			}
+		}
+
 		private void chkShowAll_CheckedChanged(object sender, EventArgs e)
 		{
 			try
 			{
 				SetSalesVoucherHistoryGrid();
-				if(Convert.ToInt32(txtVehicleNo.Tag) > 0)
+				if (Convert.ToInt32(txtVehicleNo.Tag) > 0)
 				{
 					FillSalesVoucherHistoryGrid();
 				}
 			}
 			catch (Exception ex)
 			{
-				GeneralBLL.InsertEventLog("Sales Voucher: " + ex.Message, EventLogType.Application, EventLogMode.Error);
+				GeneralBLL.InsertEventLog("ShowAll_CheckedChanged: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
 
-		#endregion
+		private void dgvSalesHistory_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			try
+			{
+				if (e.RowIndex >= 0 && e.ColumnIndex == (int)GridColsSalesVoucherHistory.Select)
+				{
+					dgvSalesHistory.CommitEdit(DataGridViewDataErrorContexts.Commit);
+					decimal selectedDueTotal = 0.00M;
+					foreach (DataGridViewRow row in dgvSalesHistory.Rows)
+					{
+						if ((bool)row.Cells[(int)GridColsSalesVoucherHistory.Select].EditedFormattedValue)
+						{
+							selectedDueTotal += Convert.ToDecimal(row.Cells[(int)GridColsSalesVoucherHistory.Pending].EditedFormattedValue);
+						}
+					}
+					lblSelectedDueValue.Text = selectedDueTotal.ToString("F");
+					CalculateAmount();
+				}
+			}
+			catch (Exception ex)
+			{
+				GeneralBLL.InsertEventLog("SalesHistory_CellContentClick: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
+				Messages.ShowExceptionMessage(ref ex);
+			}
+		}
 
+		private void dgvSalesHistory_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (dgvSalesHistory.CurrentCell is System.Windows.Forms.DataGridViewCheckBoxCell)
+			{
+				dgvSalesHistory.EndEdit();
+			}
+		}
+
+		#endregion
 	}
 }

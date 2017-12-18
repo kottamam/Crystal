@@ -48,7 +48,7 @@ namespace tv.Crystal.Data
 				SqlParameter parRate = new SqlParameter("@Rate", salesVoucher.Rate);
 				SqlParameter parDiscount = new SqlParameter("@Discount", salesVoucher.Discount);
 				SqlParameter parNetAmount = new SqlParameter("@NetAmount", salesVoucher.NetAmount);
-				SqlParameter parSettledAmount = new SqlParameter("@SettledAmount", salesVoucher.SettledAmount);
+				SqlParameter parSettledAmount = new SqlParameter("@SettledAmount", salesVoucher.ReceivedAmount);
 				SqlParameter parCreatedBy = new SqlParameter("@CreatedBy", salesVoucher.CreatedBy);
 				SqlParameter[] parameters = {
 											  parSalesId

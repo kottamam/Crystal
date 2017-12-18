@@ -39,7 +39,7 @@ namespace tv.Crystal.Common.Models
 			Rate = 0.00M;
 			Discount = 0.00M;
 			NetAmount = (Quantity * Rate) - Discount;
-			SettledAmount = 0.00M;
+			ReceivedAmount = 0.00M;
 			CreatedBy = ActiveUserSession.UserId;
 		}
 		#endregion
@@ -94,7 +94,7 @@ namespace tv.Crystal.Common.Models
 			set;
 		}
 
-		public decimal SettledAmount
+		public decimal ReceivedAmount
 		{
 			get;
 			set;
