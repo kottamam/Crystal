@@ -95,6 +95,7 @@ namespace tv.Crystal.Common.Constants
 
 		public const string INSERT_SALES_VOUCHER = "[dbo].[cmsInsertSalesVoucher]";
 		public const string GET_SALES_VOUCHER_HISTORY = "[dbo].[cmsGetSalesVoucherHistory]";
+		public const string UPDATE_SALES_VOUCHER_SETTLEMENT_AMOUNT = "[dbo].[cmsUpdateSalesVoucherSettlementAmount]";
 
 		#endregion
 	}

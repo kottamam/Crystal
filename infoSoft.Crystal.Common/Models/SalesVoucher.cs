@@ -19,6 +19,7 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
 using tv.Crystal.Common.Models;
 
 #endregion
@@ -41,6 +42,7 @@ namespace tv.Crystal.Common.Models
 			NetAmount = (Quantity * Rate) - Discount;
 			ReceivedAmount = 0.00M;
 			CreatedBy = ActiveUserSession.UserId;
+			SettlementList = new List<SalesVoucherSettlement>();
 		}
 		#endregion
 
@@ -101,6 +103,12 @@ namespace tv.Crystal.Common.Models
 		}
 
 		public int CreatedBy
+		{
+			get;
+			set;
+		}
+
+		public List<SalesVoucherSettlement> SettlementList
 		{
 			get;
 			set;

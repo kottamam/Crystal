@@ -48,7 +48,7 @@ namespace tv.Crystal.Data
 				SqlParameter parRate = new SqlParameter("@Rate", salesVoucher.Rate);
 				SqlParameter parDiscount = new SqlParameter("@Discount", salesVoucher.Discount);
 				SqlParameter parNetAmount = new SqlParameter("@NetAmount", salesVoucher.NetAmount);
-				SqlParameter parSettledAmount = new SqlParameter("@SettledAmount", salesVoucher.ReceivedAmount);
+				SqlParameter parReceivedAmount = new SqlParameter("@ReceivedAmount", salesVoucher.ReceivedAmount);
 				SqlParameter parCreatedBy = new SqlParameter("@CreatedBy", salesVoucher.CreatedBy);
 				SqlParameter[] parameters = {
 											  parSalesId
@@ -59,7 +59,7 @@ namespace tv.Crystal.Data
 											, parRate
 											, parDiscount
 											, parNetAmount
-											, parSettledAmount
+											, parReceivedAmount
 											, parCreatedBy};
 
 				SqlHelper.ExecuteNonQuery(tranSalesVoucher
@@ -69,6 +69,33 @@ namespace tv.Crystal.Data
 										, parameters);
 
 				return (Convert.ToInt32(parSalesId.Value));
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		/// <summary>
+		/// To update sales voucher settlement amount
+		/// </summary>
+		/// <param name="tranSalesVoucher">Transaction object</param>
+		/// <param name="salesVoucherSettlment">Settlment details</param>
+		public static void UpdateSalesVoucherSettlementAmount(SqlTransaction tranSalesVoucher, SalesVoucherSettlement salesVoucherSettlment)
+		{
+			try
+			{
+				SqlParameter parSalesId = new SqlParameter("@SalesId", salesVoucherSettlment.SalesId);
+				SqlParameter parAmount = new SqlParameter("@Amount", salesVoucherSettlment.Amount);
+				SqlParameter[] parameters = {
+											  parSalesId
+											, parAmount};
+
+				SqlHelper.ExecuteNonQuery(tranSalesVoucher
+										, CommandType.StoredProcedure
+										, StoredProcedureConstants.UPDATE_SALES_VOUCHER_SETTLEMENT_AMOUNT
+										, CrystalConstants.DEFAULT_COMMAND_TIME_OUT
+										, parameters);
 			}
 			catch (Exception ex)
 			{

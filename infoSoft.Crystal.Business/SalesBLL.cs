@@ -52,6 +52,13 @@ namespace tv.Crystal.Business
 						{
 							// Calling data method for inserting/updating sales voucher
 							salesVoucher.SalesId = SalesDAL.InsertSalesVoucher(tranSalesVoucher, ref salesVoucher);
+							if(salesVoucher.SettlementList.Count > 0)
+							{
+								foreach(SalesVoucherSettlement settlement in salesVoucher.SettlementList)
+								{
+									SalesDAL.UpdateSalesVoucherSettlementAmount(tranSalesVoucher, settlement);
+								}
+							}
 							tranSalesVoucher.Commit();
 							return salesVoucher.SalesId;
 						}

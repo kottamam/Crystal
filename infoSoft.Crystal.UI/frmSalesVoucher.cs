@@ -531,6 +531,13 @@ namespace tv.Crystal.UI
 				if (Convert.ToDecimal(lblExcessAmountValue.Text) > 0)
 				{
 					Messages.ShowInformationMessage("Excess amount. Cannot proceed.");
+					txtReceivedAmount.Focus();
+					return;
+				}
+				if(Convert.ToDecimal(lblSelectedDueValue.Text) > 0 && Convert.ToDecimal(lblExcessAmountValue.Text) != 0)
+				{
+					Messages.ShowInformationMessage("Excess/Short in amount. Cannot proceed.");
+					txtReceivedAmount.Focus();
 					return;
 				}
 				Cursor.Current = Cursors.WaitCursor;
@@ -554,10 +561,22 @@ namespace tv.Crystal.UI
 				salesVoucher.NetAmount = Convert.ToDecimal(lblTotalValue.Text);
 				salesVoucher.ReceivedAmount = Convert.ToDecimal(txtReceivedAmount.Text);
 				salesVoucher.CreatedBy = ActiveUserSession.UserId;
+				foreach(DataGridViewRow row in dgvSalesHistory.Rows)
+				{
+					if (Convert.ToBoolean(row.Cells[(int)GridColsSalesVoucherHistory.Select].Value))
+					{
+						salesVoucher.SettlementList.Add(new SalesVoucherSettlement()
+						{
+							SalesId = Convert.ToInt32(row.Cells[(int)GridColsSalesVoucherHistory.SalesId].Value),
+							Amount = Convert.ToDecimal(row.Cells[(int)GridColsSalesVoucherHistory.Pending].Value)
+						});
+					}
+				}
 				salesVoucher.SalesId = SalesBLL.InsertSalesVoucher(ref salesVoucher);
 				GeneralBLL.InsertEventLog("Sales voucher saved", EventLogType.SalesVoucher, EventLogMode.Insert, salesVoucher.SalesId);
 				ClearFields();
 				Messages.ShowInformationMessage("Sales voucher saved successfully.");
+				txtVehicleNo.Focus();
 			}
 			catch (Exception ex)
 			{
