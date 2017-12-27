@@ -13,6 +13,7 @@ namespace tv.Crystal.Common.Models
 		{
 			SalesId = 0;
 			Amount = 0.00M;
+			ReferenceSalesId = 0;
 		}
 		#endregion
 
@@ -24,6 +25,12 @@ namespace tv.Crystal.Common.Models
 		}
 
 		public decimal Amount
+		{
+			get;
+			set;
+		}
+
+		public int ReferenceSalesId
 		{
 			get;
 			set;

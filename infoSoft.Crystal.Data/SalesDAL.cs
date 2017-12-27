@@ -87,9 +87,11 @@ namespace tv.Crystal.Data
 			{
 				SqlParameter parSalesId = new SqlParameter("@SalesId", salesVoucherSettlment.SalesId);
 				SqlParameter parAmount = new SqlParameter("@Amount", salesVoucherSettlment.Amount);
+				SqlParameter parReferenceSalesId = new SqlParameter("@ReferenceSalesId", salesVoucherSettlment.ReferenceSalesId);
 				SqlParameter[] parameters = {
 											  parSalesId
-											, parAmount};
+											, parAmount
+											, parReferenceSalesId};
 
 				SqlHelper.ExecuteNonQuery(tranSalesVoucher
 										, CommandType.StoredProcedure

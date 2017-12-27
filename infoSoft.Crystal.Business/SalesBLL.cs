@@ -56,6 +56,7 @@ namespace tv.Crystal.Business
 							{
 								foreach(SalesVoucherSettlement settlement in salesVoucher.SettlementList)
 								{
+									settlement.ReferenceSalesId = salesVoucher.SalesId;
 									SalesDAL.UpdateSalesVoucherSettlementAmount(tranSalesVoucher, settlement);
 								}
 							}
