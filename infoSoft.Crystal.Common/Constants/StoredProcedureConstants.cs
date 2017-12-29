@@ -72,7 +72,6 @@ namespace tv.Crystal.Common.Constants
         public const string AUTHENTICATE_LOGIN = "[dbo].[cmsAuthenticateLogin]";
         public const string GET_SERVER_DATE_AND_TIME = "[dbo].[cmsGetServerDateAndTime]";
         public const string GET_GENERAL_SETTINGS = "[dbo].[cmsGetGeneralSettings]";
-        public const string GET_USER_ROLE_MENU_ITEM_PERMISSIONS = "[dbo].[cmsGetUserRoleMenuItemPermissions]";
 
         #endregion
 
@@ -91,11 +90,24 @@ namespace tv.Crystal.Common.Constants
 
 		#endregion
 
+		#region Reports
+
+		public const string GET_SALES_VOUCHER_REPORT_DETAILED = "[dbo].[cmsGetSalesVoucherReportDetailed]";
+
+		#endregion
+
 		#region Sales Voucher
 
 		public const string INSERT_SALES_VOUCHER = "[dbo].[cmsInsertSalesVoucher]";
 		public const string GET_SALES_VOUCHER_HISTORY = "[dbo].[cmsGetSalesVoucherHistory]";
 		public const string UPDATE_SALES_VOUCHER_SETTLEMENT_AMOUNT = "[dbo].[cmsUpdateSalesVoucherSettlementAmount]";
+
+		#endregion
+
+		#region User
+
+		public const string GET_USER_ROLE_MENU_ITEM_PERMISSIONS = "[dbo].[cmsGetUserRoleMenuItemPermissions]";
+		public const string GET_USER_LIST = "[dbo].[cmsGetUserList]";
 
 		#endregion
 	}

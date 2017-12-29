@@ -121,5 +121,45 @@ namespace tv.Crystal.Business
 				return dtSalesVoucherHistory; // Return datatable with sales voucher history
 			}
 		}
+
+		/// <summary>
+		/// To get sales details to generate report
+		/// </summary>
+		/// <param name="fromDate">From date</param>
+		/// <param name="toDate">To date</param>
+		/// <param name="customerId">Customer Id</param>
+		/// <param name="modelId">Model Id</param>
+		/// <param name="userId">User Id</param>
+		/// <returns>Sales details</returns>
+		public static DataTable GetSalesVoucherReportDetailed(DateTime fromDate, DateTime toDate, int customerId, int modelId, int userId)
+		{
+			DataTable dtSalesVoucher;
+
+			using (SqlConnection cnCustomer = new SqlConnection(tvConnection.ConnectionString))
+			{
+				cnCustomer.Open();
+
+				try
+				{
+					//Calling data method for getting sales details to generate report
+					dtSalesVoucher = SalesDAL.GetSalesVoucherReportDetailed(cnCustomer, fromDate, toDate, customerId, modelId, userId);
+				}
+				catch (Exception ex)
+				{
+					throw ex;
+				}
+				finally
+				{
+					if (cnCustomer.State == ConnectionState.Open || cnCustomer != null)
+					{
+						cnCustomer.Dispose();
+						cnCustomer.Close();
+					}
+				}
+
+				return dtSalesVoucher; // Return datatable with sales details
+			}
+		}
+
 	}
 }

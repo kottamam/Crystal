@@ -74,6 +74,24 @@ namespace tv.Crystal.Data
                                     , parModuleId);
 
             return dtMenu;
-        }
-    }
+		}
+
+		/// <summary>
+		/// To get user list
+		/// </summary>
+		/// <param name="cnUser">Connection Object</param>
+		/// <returns>Users</returns>
+		public static DataTable GetUserList(SqlConnection cnUser)
+		{
+			DataTable dtUsers = new DataTable();
+
+			SqlHelper.FillDatatable(cnUser
+									, CommandType.StoredProcedure
+									, StoredProcedureConstants.GET_USER_LIST
+									, dtUsers
+									, CrystalConstants.DEFAULT_COMMAND_TIME_OUT);
+
+			return dtUsers;
+		}
+	}
 }

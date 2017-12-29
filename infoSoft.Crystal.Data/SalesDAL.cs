@@ -137,5 +137,45 @@ namespace tv.Crystal.Data
 			return dtSalesVoucherHistory;
 		}
 
+		/// <summary>
+		/// To get sales details to generate report
+		/// </summary>
+		/// <param name="cnSalesVoucher">Connection object</param>
+		/// <param name="fromDate">From date</param>
+		/// <param name="toDate">TO date</param>
+		/// <param name="customerId">Customer Id</param>
+		/// <param name="modelId">Model Id</param>
+		/// <param name="userId">User Id</param>
+		/// <returns>Sales details based on the parameters</returns>
+		public static DataTable GetSalesVoucherReportDetailed(SqlConnection cnSalesVoucher, DateTime fromDate, DateTime toDate, int customerId, int modelId, int userId)
+		{
+			DataTable dtSalesReport = new DataTable();
+
+			try
+			{
+				SqlParameter parFromDate = new SqlParameter("@FromDate", fromDate);
+				SqlParameter parToDate = new SqlParameter("@ToDate", toDate);
+				SqlParameter parCustomerId = new SqlParameter("@CustomerId", customerId);
+				SqlParameter parModelId = new SqlParameter("@ModelId", modelId);
+				SqlParameter parUserId = new SqlParameter("@UserId", userId);
+
+				SqlHelper.FillDatatable(cnSalesVoucher
+					   , CommandType.StoredProcedure
+					   , StoredProcedureConstants.GET_SALES_VOUCHER_REPORT_DETAILED
+					   , dtSalesReport
+					   , CrystalConstants.DEFAULT_COMMAND_TIME_OUT
+					   , parFromDate
+					   , parToDate
+					   , parCustomerId
+					   , parModelId
+					   , parUserId);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return dtSalesReport;
+		}
 	}
 }

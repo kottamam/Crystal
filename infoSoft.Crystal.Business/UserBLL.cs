@@ -108,5 +108,44 @@ namespace tv.Crystal.Business
 
             return dtMenu;
         }
-    }
+
+		/// <summary>
+		/// To get user list
+		/// </summary>
+		/// <returns>Users</returns>
+		public static DataTable GetUserList()
+		{
+			DataTable dtUsers = null;    // Data table for users
+			try
+			{
+				using (SqlConnection cnUser = new SqlConnection(tvConnection.ConnectionString))
+				{
+					cnUser.Open();
+					try
+					{
+						dtUsers = UserDAL.GetUserList(cnUser);
+					}
+					catch (SqlException ex)
+					{
+						throw ex;
+					}
+					finally
+					{
+						if (cnUser.State == ConnectionState.Open || cnUser != null)
+						{
+							cnUser.Close();
+							cnUser.Dispose();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return dtUsers;
+		}
+
+	}
 }

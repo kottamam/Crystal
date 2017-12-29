@@ -58,8 +58,9 @@ namespace tv.Crystal.Common.Constants
 		Customer = 3,
 		Product = 4,
 		SalesVoucher = 5,
-        Account = 6,
-        Voucher = 7
+		Reports = 6,
+        Account = 7,
+        Voucher = 8
     }
 
     /// <summary>
