@@ -33,6 +33,7 @@ namespace tv.Crystal.Common.Models
 		public SalesVoucher()
 		{
 			SalesId = 0;
+			SalesNo = 0;
 			CustomerId = 0;
 			ModelId = 0;
 			SalesDate = DateTime.Now;
@@ -49,6 +50,12 @@ namespace tv.Crystal.Common.Models
 		#region Public Methods
 
 		public int SalesId
+		{
+			get;
+			set;
+		}
+
+		public int SalesNo
 		{
 			get;
 			set;

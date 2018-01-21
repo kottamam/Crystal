@@ -117,6 +117,12 @@
     <Compile Include="frmAccount.Designer.cs">
       <DependentUpon>frmAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCancelSalesVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCancelSalesVoucher.Designer.cs">
+      <DependentUpon>frmCancelSalesVoucher.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAccount.resx">
       <DependentUpon>frmAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCancelSalesVoucher.resx">
+      <DependentUpon>frmCancelSalesVoucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.cs</DependentUpon>

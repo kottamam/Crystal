@@ -1,6 +1,6 @@
 ﻿namespace tv.Crystal.UI
 {
-	partial class frmSalesVoucher
+	partial class frmCancelSalesVoucher
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSalesVoucher));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCancelSalesVoucher));
 			this.tipSalesVoucher = new System.Windows.Forms.ToolTip(this.components);
 			this.gbxEntry = new System.Windows.Forms.GroupBox();
 			this.gbxCustomerDetails = new System.Windows.Forms.GroupBox();
@@ -74,7 +74,7 @@
 			this.btnSearch = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnClear = new System.Windows.Forms.Button();
-			this.btnSave = new System.Windows.Forms.Button();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.imlImages = new System.Windows.Forms.ImageList(this.components);
 			this.gbxEntry.SuspendLayout();
 			this.gbxCustomerDetails.SuspendLayout();
@@ -111,6 +111,7 @@
 			this.gbxEntry.Controls.Add(this.lblSalesDate);
 			this.gbxEntry.Controls.Add(this.lblProduct);
 			this.gbxEntry.Controls.Add(this.lblVehicleNo);
+			this.gbxEntry.Enabled = false;
 			this.gbxEntry.Location = new System.Drawing.Point(3, -5);
 			this.gbxEntry.Name = "gbxEntry";
 			this.gbxEntry.Size = new System.Drawing.Size(1102, 492);
@@ -549,7 +550,7 @@
 			this.gbxControls.Controls.Add(this.btnSearch);
 			this.gbxControls.Controls.Add(this.btnClose);
 			this.gbxControls.Controls.Add(this.btnClear);
-			this.gbxControls.Controls.Add(this.btnSave);
+			this.gbxControls.Controls.Add(this.btnDelete);
 			this.gbxControls.Location = new System.Drawing.Point(3, 480);
 			this.gbxControls.Name = "gbxControls";
 			this.gbxControls.Size = new System.Drawing.Size(1102, 87);
@@ -561,7 +562,6 @@
 			this.txtRefNo.BackColor = System.Drawing.Color.White;
 			this.txtRefNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtRefNo.ContentType = tv.Crystal.UI.nTextBox.nType.Number;
-			this.txtRefNo.Enabled = false;
 			this.txtRefNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtRefNo.Location = new System.Drawing.Point(964, 38);
 			this.txtRefNo.Name = "txtRefNo";
@@ -585,7 +585,6 @@
 			this.btnSearch.BackColor = System.Drawing.Color.Transparent;
 			this.btnSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearch.BackgroundImage")));
 			this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.btnSearch.Enabled = false;
 			this.btnSearch.FlatAppearance.BorderSize = 0;
 			this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSearch.Font = new System.Drawing.Font("Verdana", 8.25F);
@@ -623,17 +622,17 @@
 			this.btnClear.UseVisualStyleBackColor = false;
 			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
-			// btnSave
+			// btnDelete
 			// 
-			this.btnSave.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnSave.Location = new System.Drawing.Point(343, 23);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(136, 51);
-			this.btnSave.TabIndex = 0;
-			this.btnSave.Text = "&Save";
-			this.btnSave.UseVisualStyleBackColor = false;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.btnDelete.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.btnDelete.Location = new System.Drawing.Point(343, 23);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(136, 51);
+			this.btnDelete.TabIndex = 0;
+			this.btnDelete.Text = "&Delete";
+			this.btnDelete.UseVisualStyleBackColor = false;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// imlImages
 			// 
@@ -645,7 +644,7 @@
 			this.imlImages.Images.SetKeyName(3, "Ledger.png");
 			this.imlImages.Images.SetKeyName(4, "LedgerOpen.png");
 			// 
-			// frmSalesVoucher
+			// frmCancelSalesVoucher
 			// 
 			this.AutoResize = false;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -653,8 +652,8 @@
 			this.ClientSize = new System.Drawing.Size(1108, 570);
 			this.Controls.Add(this.gbxEntry);
 			this.Controls.Add(this.gbxControls);
-			this.Name = "frmSalesVoucher";
-			this.Text = "Sales Voucher";
+			this.Name = "frmCancelSalesVoucher";
+			this.Text = "Cancel Sales Voucher";
 			this.Load += new System.EventHandler(this.frmSalesVoucher_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmSalesVoucher_KeyDown);
 			this.gbxEntry.ResumeLayout(false);
@@ -698,7 +697,7 @@
 		private System.Windows.Forms.Button btnSearchCustomer;
 		private System.Windows.Forms.Button btnSearchVehicleNo;
 		private System.Windows.Forms.GroupBox gbxControls;
-		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.Button btnDelete;
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.GroupBox gbxCustomerDetails;

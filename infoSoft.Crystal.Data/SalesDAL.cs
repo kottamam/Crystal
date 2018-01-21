@@ -41,6 +41,8 @@ namespace tv.Crystal.Data
 			{
 				SqlParameter parSalesId = new SqlParameter("@SalesId", salesVoucher.SalesId);
 				parSalesId.Direction = ParameterDirection.InputOutput;
+				SqlParameter parSalesNo = new SqlParameter("@SalesNo", salesVoucher.SalesNo);
+				parSalesNo.Direction = ParameterDirection.InputOutput;
 				SqlParameter parCustomerId = new SqlParameter("@CustomerID", salesVoucher.CustomerId);
 				SqlParameter parModelId = new SqlParameter("@ModelId", salesVoucher.ModelId);
 				SqlParameter parSalesDate = new SqlParameter("@SalesDate", salesVoucher.SalesDate);
@@ -52,6 +54,7 @@ namespace tv.Crystal.Data
 				SqlParameter parCreatedBy = new SqlParameter("@CreatedBy", salesVoucher.CreatedBy);
 				SqlParameter[] parameters = {
 											  parSalesId
+											, parSalesNo
 											, parCustomerId
 											, parModelId
 											, parSalesDate
@@ -68,6 +71,8 @@ namespace tv.Crystal.Data
 										, CrystalConstants.DEFAULT_COMMAND_TIME_OUT
 										, parameters);
 
+				salesVoucher.SalesId = Convert.ToInt32(parSalesId.Value);
+				salesVoucher.SalesNo = Convert.ToInt32(parSalesNo.Value);
 				return (Convert.ToInt32(parSalesId.Value));
 			}
 			catch (Exception ex)
@@ -176,6 +181,86 @@ namespace tv.Crystal.Data
 			}
 
 			return dtSalesReport;
+		}
+
+		/// <summary>
+		/// To check is last sales to the customer
+		/// </summary>
+		/// <param name="cnSalesVoucher">Connection object</param>
+		/// <param name="salesNo">Sales No</param>
+		/// <returns>Last Sales No</returns>
+		public static int CheckIsLastSaleToTheCustomer(SqlConnection cnSalesVoucher, int salesNo)
+		{
+			try
+			{
+				SqlParameter parSalesNo = new SqlParameter("@SalesNo", salesNo);
+
+				return (int)SqlHelper.ExecuteScalar(cnSalesVoucher
+							, CommandType.StoredProcedure
+							, StoredProcedureConstants.CHECK_IS_LAST_SALE_TO_THE_CUSTOMER
+							, parSalesNo);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		/// <summary>
+		/// To get sales voucher details by sales no
+		/// </summary>
+		/// <param name="cnSalesVoucher">Connection object</param>
+		/// <param name="salesNo">Sales no</param>
+		/// <returns>Sales voucher details</returns>
+		public static DataTable GetSalesVoucherDetailsBySalesNo(SqlConnection cnSalesVoucher, int salesNo)
+		{
+			DataTable dtSalesVoucherDetails = new DataTable();
+
+			try
+			{
+				SqlParameter parSalesNo = new SqlParameter("@SalesNo", salesNo);
+
+				SqlHelper.FillDatatable(cnSalesVoucher
+					   , CommandType.StoredProcedure
+					   , StoredProcedureConstants.GET_SALES_VOUCHER_DETAILS_BY_SALES_NO
+					   , dtSalesVoucherDetails
+					   , CrystalConstants.DEFAULT_COMMAND_TIME_OUT
+					   , parSalesNo);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return dtSalesVoucherDetails;
+		}
+
+		/// <summary>
+		/// To delete sales voucher
+		/// </summary>
+		/// <param name="tranSalesVoucher">Transaction object</param>
+		/// <param name="salesId">Sales Id</param>
+		/// <param name="userId">User Id</param>
+		public static void DeleteSalesVoucher(SqlTransaction tranSalesVoucher, int salesId, int userId)
+		{
+			try
+			{
+				SqlParameter parSalesId = new SqlParameter("@SalesID", salesId);
+				SqlParameter parUserId = new SqlParameter("@UserID", userId);
+				SqlParameter[] parameters = {
+											  parSalesId
+											, parUserId};
+
+				SqlHelper.ExecuteNonQuery(tranSalesVoucher
+										, CommandType.StoredProcedure
+										, StoredProcedureConstants.DELETE_SALES_VOUCHER
+										, CrystalConstants.DEFAULT_COMMAND_TIME_OUT
+										, parameters);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 	}
 }

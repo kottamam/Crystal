@@ -48,6 +48,7 @@ namespace tv.Crystal.UI
 		{
 			VoucherSalesId
 			, SlNo
+			, SalesNo
 			, Date
 			, Model
 			, Customer
@@ -170,6 +171,16 @@ namespace tv.Crystal.UI
 				colSlNo.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 				colSlNo.SortMode = DataGridViewColumnSortMode.NotSortable;
 
+				nDataGridViewTextBoxColumn colSalesNo = new nDataGridViewTextBoxColumn();
+				colSalesNo.Name = "colSalesNo";
+				colSalesNo.HeaderText = "Sales No";
+				colSalesNo.MinimumWidth = 60;
+				colSalesNo.FillWeight = 60;
+				colSalesNo.ReadOnly = true;
+				colSalesNo.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colSalesNo.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				colSalesNo.SortMode = DataGridViewColumnSortMode.NotSortable;
+
 				nDataGridViewTextBoxColumn colDate = new nDataGridViewTextBoxColumn();
 				colDate.Name = "colVoucherDate";
 				colDate.HeaderText = "Date";
@@ -273,6 +284,7 @@ namespace tv.Crystal.UI
 				dgvReport.Columns.AddRange(new DataGridViewColumn[] {
 																		colVoucherSalesId
 																		, colSlNo
+																		, colSalesNo
 																		, colDate
 																		, colModel
 																		, colCustomer
@@ -350,6 +362,7 @@ namespace tv.Crystal.UI
 					{
 						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.VoucherSalesId].Value = row["SalesID"].ToString();
 						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.SlNo].Value = lastRowIndex + 1;
+						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.SalesNo].Value = row["SalesNo"].ToString();
 						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.Date].Value = row["SalesDate"].ToString();
 						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.Model].Value = row["ModelName"].ToString();
 						dgvReport.Rows[lastRowIndex].Cells[(int)GridCols.Customer].Value = row["Customer"].ToString();

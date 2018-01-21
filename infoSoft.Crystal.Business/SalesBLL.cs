@@ -161,5 +161,117 @@ namespace tv.Crystal.Business
 			}
 		}
 
+		/// <summary>
+		/// To check is last sales to the customer
+		/// </summary>
+		/// <param name="salesNo">Sales No</param>
+		/// <returns>Last sales no</returns>
+		public static int CheckIsLastSaleToTheCustomer(int salesNo)
+		{
+			int lastSalesNo;
+			using (SqlConnection cnCustomer = new SqlConnection(tvConnection.ConnectionString))
+			{
+				cnCustomer.Open();
+
+				try
+				{
+					//Calling data method for getting last sales no
+					lastSalesNo = SalesDAL.CheckIsLastSaleToTheCustomer(cnCustomer, salesNo);
+				}
+				catch (Exception ex)
+				{
+					throw ex;
+				}
+				finally
+				{
+					if (cnCustomer.State == ConnectionState.Open || cnCustomer != null)
+					{
+						cnCustomer.Dispose();
+						cnCustomer.Close();
+					}
+				}
+
+				return lastSalesNo;
+			}
+		}
+
+		/// <summary>
+		/// To get sales voucher details by sales no
+		/// </summary>
+		/// <param name="salesNo"></param>
+		/// <returns></returns>
+		public static DataTable GetSalesVoucherDetailsBySalesNo(int salesNo)
+		{
+			DataTable dtSalesVoucherDetails;
+
+			using (SqlConnection cnSalesVoucher = new SqlConnection(tvConnection.ConnectionString))
+			{
+				cnSalesVoucher.Open();
+
+				try
+				{
+					//Calling data method for getting sales voucher details
+					dtSalesVoucherDetails = SalesDAL.GetSalesVoucherDetailsBySalesNo(cnSalesVoucher, salesNo);
+				}
+				catch (Exception ex)
+				{
+					throw ex;
+				}
+				finally
+				{
+					if (cnSalesVoucher.State == ConnectionState.Open || cnSalesVoucher != null)
+					{
+						cnSalesVoucher.Dispose();
+						cnSalesVoucher.Close();
+					}
+				}
+
+				return dtSalesVoucherDetails; // Return datatable with sales voucher details
+			}
+		}
+
+		/// <summary>
+		/// To delete sales voucher
+		/// </summary>
+		/// <param name="salesId">Sales Id</param>
+		/// <param name="userId">User Id</param>
+		public static void DeleteSalesVoucher(int salesId, int userId)
+		{
+			try
+			{
+				using (SqlConnection cnSalesVoucher = new SqlConnection(tvConnection.ConnectionString))
+				{
+					cnSalesVoucher.Open();
+
+					using (SqlTransaction tranSalesVoucher = cnSalesVoucher.BeginTransaction())
+					{
+						try
+						{
+							// Calling data method for delete sales voucher
+							SalesDAL.DeleteSalesVoucher(tranSalesVoucher, salesId, userId);
+							tranSalesVoucher.Commit();
+						}
+						catch (Exception ex)
+						{
+							if (tranSalesVoucher != null)
+								tranSalesVoucher.Rollback();
+							throw ex;
+						}
+						finally
+						{
+							if (cnSalesVoucher != null && cnSalesVoucher.State == ConnectionState.Open)
+							{
+								cnSalesVoucher.Close();
+								cnSalesVoucher.Dispose();
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
 	}
 }

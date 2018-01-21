@@ -31,11 +31,11 @@ using System.Drawing;
 
 namespace tv.Crystal.UI
 {
-	public partial class frmSalesVoucher : BaseForm
+	public partial class frmCancelSalesVoucher : BaseForm
 	{
 		#region Constructor
 
-		public frmSalesVoucher()
+		public frmCancelSalesVoucher()
 		{
 			InitializeComponent();
 		}
@@ -159,6 +159,7 @@ namespace tv.Crystal.UI
 		{
 			try
 			{
+				txtRefNo.Tag = 0;
 				txtVehicleNo.Text = string.Empty;
 				txtVehicleNo.Tag = 0;
 				txtCustomerName.Text = string.Empty;
@@ -179,6 +180,7 @@ namespace tv.Crystal.UI
 				txtCustomerName.Enabled = true;
 				chkShowAll.Checked = false;
 				SetCustomerDetailsArea();
+				txtRefNo.SelectAll();
 			}
 			catch (Exception ex)
 			{
@@ -433,11 +435,36 @@ namespace tv.Crystal.UI
 				int latestSalesNo = SalesBLL.CheckIsLastSaleToTheCustomer(refNo);
 				if(latestSalesNo == 0)
 				{
-
+					DataTable dtSalesVoucher = SalesBLL.GetSalesVoucherDetailsBySalesNo(refNo);
+					if(dtSalesVoucher.Rows.Count > 0)
+					{
+						ClearFields();
+						DataRow voucher = dtSalesVoucher.Rows[0];
+						txtRefNo.Tag = Convert.ToInt32(voucher["SalesID"]);
+						txtVehicleNo.Text = voucher["VehicleNo"].ToString();
+						txtCustomerName.Text = voucher["CustomerName"].ToString();
+						cboProduct.Text = voucher["ModelName"].ToString();
+						dtpSalesDate.Value = Convert.ToDateTime(voucher["SalesDate"]);
+						txtQty.Text = voucher["Quantity"].ToString();
+						txtRate.Text = Convert.ToDecimal(voucher["Rate"]).ToString("F");
+						txtDiscount.Text = Convert.ToDecimal(voucher["Discount"]).ToString("F");
+						lblNetAmountValue.Text = Convert.ToDecimal(voucher["NetAmount"]).ToString("F");
+						txtReceivedAmount.Text = Convert.ToDecimal(voucher["ReceivedAmount"]).ToString("F");
+					}
+					else
+					{
+						ClearFields();
+						Messages.ShowInformationMessage("Sales voucher details not found.");
+						txtRefNo.SelectAll();
+						txtRefNo.Focus();
+					}
 				}
 				else
 				{
+					ClearFields();
 					Messages.ShowInformationMessage("Sales vouchers found for this customer which created after this sales voucher. So can not modify. \n Ref. No : " + latestSalesNo.ToString());
+					txtRefNo.SelectAll();
+					txtRefNo.Focus();
 				}
 			}
 			catch (Exception ex)
@@ -523,99 +550,7 @@ namespace tv.Crystal.UI
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
-
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				if (txtVehicleNo.Text.Trim().Length == 0 && txtCustomerName.Text.Trim().Length == 0)
-				{
-					Messages.ShowInformationMessage("Customer details is not entered.");
-					txtVehicleNo.Focus();
-					return;
-				}
-				if (Convert.ToInt32(txtQty.Text) * Convert.ToDecimal(txtRate.Text) < Convert.ToDecimal(txtDiscount.Text))
-				{
-					Messages.ShowInformationMessage("You cannot give dicount more than the bill amount.");
-					txtDiscount.Focus();
-					return;
-				}
-				if (Convert.ToDecimal(lblTotalValue.Text) == 0 && Convert.ToDecimal(txtReceivedAmount.Text) == 0)
-				{
-					Messages.ShowInformationMessage("Invalid entry. Voucher amount and received amount are zero.");
-					txtQty.Focus();
-					return;
-				}
-				if (dtpSalesDate.Value.Date < GeneralBLL.GetServerDateAndTime().Date && !Messages.ShowConfirmation("Do you want to enter sales voucher for previous date?"))
-				{
-					return;
-				}
-				if (Convert.ToInt32(txtQty.Text) == 0 && Convert.ToDecimal(txtReceivedAmount.Text) > 0 && !Messages.ShowConfirmation("Quantity is zero. Are you going to enter a settlement entry?"))
-				{
-					txtQty.Focus();
-					return;
-				}
-				if (Convert.ToDecimal(lblExcessAmountValue.Text) > 0)
-				{
-					Messages.ShowInformationMessage("Excess amount. Cannot proceed.");
-					txtReceivedAmount.Focus();
-					return;
-				}
-				if(Convert.ToDecimal(lblSelectedDueValue.Text) > 0 && Convert.ToDecimal(lblExcessAmountValue.Text) != 0)
-				{
-					Messages.ShowInformationMessage("Excess/Short in amount. Cannot proceed.");
-					txtReceivedAmount.Focus();
-					return;
-				}
-				Cursor.Current = Cursors.WaitCursor;
-				if (Convert.ToInt32(txtVehicleNo.Tag) == 0)
-				{
-					Customer customer = new Customer();
-					customer.CustomerId = 0;
-					customer.CustomerName = txtCustomerName.Text.Trim();
-					customer.VehicleNumber = txtVehicleNo.Text.Trim();
-					customer.IsInsertUpdateDelete = InsertUpdateDeleteMode.InsertMode;
-					txtVehicleNo.Tag = CustomerBLL.InsertUpdateCustomer(ref customer);
-					GeneralBLL.InsertEventLog("New customer [" + (txtCustomerName.Text.Trim().Length > 0 ? txtCustomerName.Text.Trim() : txtVehicleNo.Text.Trim()) + "] created.", EventLogType.SalesVoucher, EventLogMode.Insert, Convert.ToInt32(txtVehicleNo.Tag));
-				}
-				SalesVoucher salesVoucher = new SalesVoucher();
-				salesVoucher.CustomerId = Convert.ToInt32(txtVehicleNo.Tag);
-				salesVoucher.ModelId = (cboProduct.SelectedItem as nComboboxItem).Value;
-				salesVoucher.SalesDate = dtpSalesDate.Value;
-				salesVoucher.Quantity = Convert.ToInt32(txtQty.Text);
-				salesVoucher.Rate = Convert.ToDecimal(txtRate.Text);
-				salesVoucher.Discount = Convert.ToDecimal(txtDiscount.Text);
-				salesVoucher.NetAmount = Convert.ToDecimal(lblTotalValue.Text);
-				salesVoucher.ReceivedAmount = Convert.ToDecimal(txtReceivedAmount.Text);
-				salesVoucher.CreatedBy = ActiveUserSession.UserId;
-				foreach(DataGridViewRow row in dgvSalesHistory.Rows)
-				{
-					if (Convert.ToBoolean(row.Cells[(int)GridColsSalesVoucherHistory.Select].Value))
-					{
-						salesVoucher.SettlementList.Add(new SalesVoucherSettlement()
-						{
-							SalesId = Convert.ToInt32(row.Cells[(int)GridColsSalesVoucherHistory.SalesId].Value),
-							Amount = Convert.ToDecimal(row.Cells[(int)GridColsSalesVoucherHistory.Pending].Value)
-						});
-					}
-				}
-				salesVoucher.SalesId = SalesBLL.InsertSalesVoucher(ref salesVoucher);
-				GeneralBLL.InsertEventLog("Sales voucher saved", EventLogType.SalesVoucher, EventLogMode.Insert, salesVoucher.SalesId);
-				ClearFields();
-				Messages.ShowInformationMessage("Sales voucher saved successfully.\nSales voucher reference no: " + salesVoucher.SalesNo.ToString());
-				txtVehicleNo.Focus();
-			}
-			catch (Exception ex)
-			{
-				GeneralBLL.InsertEventLog("Save_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
-				Messages.ShowExceptionMessage(ref ex);
-			}
-			finally
-			{
-				Cursor.Current = Cursors.Default;
-			}
-		}
-
+		
 		private void btnSearch_Click(object sender, EventArgs e)
 		{
 			try
@@ -625,6 +560,32 @@ namespace tv.Crystal.UI
 			catch (Exception ex)
 			{
 				GeneralBLL.InsertEventLog("Search_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
+				Messages.ShowExceptionMessage(ref ex);
+			}
+		}
+
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if(Convert.ToInt32(txtRefNo.Tag) > 0)
+				{
+					if(Messages.ShowConfirmation("Do you want to cancel the selected sales voucher?"))
+					{
+						SalesBLL.DeleteSalesVoucher(Convert.ToInt32(txtRefNo.Tag), ActiveUserSession.UserId);
+						GeneralBLL.InsertEventLog("Sales voucher deleted.", EventLogType.SalesVoucher, EventLogMode.Delete, Convert.ToInt32(txtRefNo.Tag));
+						ClearFields();
+						Messages.ShowInformationMessage("Sales voucher deleted sucessfully.");
+					}
+				}
+				else
+				{
+					Messages.ShowInformationMessage("Invalid sales voucher details.");
+				}
+			}
+			catch (Exception ex)
+			{
+				GeneralBLL.InsertEventLog("Delete_Click: " + ex.Message, EventLogType.SalesVoucher, EventLogMode.Error);
 				Messages.ShowExceptionMessage(ref ex);
 			}
 		}
